@@ -1,0 +1,50 @@
+/*
+
+Programa           : PWM_ATMEGA
+Data               : 02/11/2025
+Autor              : João Victor Viegas de Oliveira
+Descrição          : Gerar PWM nas portas digitais definidas para PWM nativo. 
+HARDWARE PARA TESTE: https://www.vargasp.com/download/livros/AVR%20PWM.pdf
+
+*/
+//Declaração de ports por meio de constante
+
+const int mosfet = 5; //Pino 16
+const int BT_1 = 8; //BT+ - Pino 14
+const int BT_2 = 9; //BT- - Pino 15
+int duty;
+
+void setup() {
+  //Inicialização do pino digital x como Output
+  pinMode(mosfet, OUTPUT);
+  duty = 127; // Prepara duty com 50%
+  pinMode(BT_1, INPUT);
+  pinMode(BT_2, INPUT);
+
+}
+
+void loop()  //Ação normal repetitiva
+{
+  if (digitalRead(BT_1) == HIGH) //Detecta se o Botão + foi apertado
+  { 
+    delay(40); //atraso
+    duty = duty +10; //incremento do duty
+    if (duty >= 237)
+    {
+      duty = 237;
+    }
+    analogWrite(mosfet,duty); //efetiva
+  }
+
+  if (digitalRead(BT_2) == HIGH) //Detecta se o Botão - foi apertado
+  { 
+    delay(40); //atraso
+    duty = duty - 10; //incremento do duty
+    if (duty <= 17)
+    {
+      duty = 17;
+    }
+    analogWrite(mosfet,duty); //efetiva
+  } 
+
+}
